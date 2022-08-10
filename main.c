@@ -3,11 +3,12 @@
 
 int main(){
 
-    Tree t;
+    Tree t, taux;
     definir(&t);
     int op;    //op sera usado pro switch case,
     int aux;    //aux ira tomar os valores a serem inseridos
     int aux1;   //aux1 ira tomar os valores a serem inseridos, quando necessario
+    int id;     //id ira tomar os ids dos elementos
 
     do {
         printf("\n1 - Cria raiz"
@@ -25,18 +26,32 @@ int main(){
             case 1: //cria raiz
                 printf("\nInsira o numero do elemento raiz: ");
                 scanf("%d", &aux);
+                printf("\nInsira o id do elemento raiz: ");
+                scanf("%d", &id);
                 printf("\n");
 
-                criaRaiz(&t, aux);
+                criaRaiz(&t, id, aux);
                 break;
             case 2: //insere a esquerda
-                printf("\nInsira o numero do elemento pai no qual o elemento sera inserido a esquerda: ");
+                printf("\nInsira o id do elemento pai no qual o elemento sera inserido a esquerda: ");
                 scanf("%d", &aux1);
                 printf("\nInsira o numero do elemento a ser inserido: ");
                 scanf("%d", &aux);
+
+                do{
+                    printf("\nInsira o id do elemento a ser inserido: ");
+                    scanf("%d", &id);
+
+                    taux = busca(t, id);
+                    if(!taux) break;
+
+                    printf("\nId ja esta sendo usado por outro elemento: ");
+                    mostraNo(taux);
+                }while(1);
+
                 printf("\n");
 
-                insereEsquerda(t, aux, aux1);
+                insereEsquerda(t, id, aux, aux1);
                 break;
             case 3: //insere a direita
                 printf("\nInsira o numero do elemento pai no qual o elemento sera inserido a direita: ");
@@ -44,8 +59,19 @@ int main(){
                 printf("\nInsira o numero do elemento a ser inserido: ");
                 scanf("%d", &aux);
                 printf("\n");
+
+                do{
+                    printf("\nInsira o id do elemento a ser inserido: ");
+                    scanf("%d", &id);
+                    
+                    taux = busca(t, id);
+                    if(!taux) break;
+
+                    printf("\nId ja esta sendo usado por outro elemento: ");
+                    mostraNo(taux);
+                }while(1);
                 
-                insereDireita(t, aux, aux1);
+                insereDireita(t, id, aux, aux1);
                 break;
             case 4: //imprime altura
                 printf("\nAltura da arvore: %d\n", altura(t));
