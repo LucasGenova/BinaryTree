@@ -2,18 +2,19 @@
 #include <stdlib.h>
 #include "binary_tree.h"
 
-#define MAX(x, y) ((x>=y?x:y))
+#define MAX(x, y) ((x>=y)?x:y)
 
 int definir(Tree *t) {
     (*t) = NULL;
     return  0;
 }
 
-int criaRaiz(Tree* t, int num) {
+int criaRaiz(Tree* t, int id, int num) {
     if(vazia((*t))) {
         (*t) = (Tree) malloc(sizeof(struct tree));
     }
-    
+
+    (*t)->id = id; //Associamos um id unico ao elemento 
     (*t)->num = num; //Associamos o numero ao elemento raiz da árvore
     (*t)->ln = NULL; //Colocamos seus filhos como NULL
     (*t)->rn = NULL;
@@ -24,27 +25,27 @@ int vazia(Tree t){
     return(!t); //Retorna 0 se estiver vazia e 1 se estiver cheia
 }
 
-Tree busca(Tree t, int num){
+Tree busca(Tree t, int id){
     Tree aux;
     if(!t) return NULL;
 
-    if(t->num == num) {
+    if(t->id == id) {
         return t;
     }
     if(t->ln){
-        if(t->ln->num == num) return t->ln;
-        aux = busca(t->ln, num);
+        if(t->ln->id == id) return t->ln;
+        aux = busca(t->ln, id);
         if(aux) return aux;
     }
     if(t->rn){
-        if(t->rn->num == num) return t->rn;
-        aux = busca(t->rn, num);
+        if(t->rn->id == id) return t->rn;
+        aux = busca(t->rn, id);
         if(aux) return aux;
     }
     return NULL;
 }
 
-int insereEsquerda(Tree t, int num, int numPai){
+int insereEsquerda(Tree t, int id, int num, int idPai){
     if(vazia(t)) return 0;
 
     Tree aux, aux2;
@@ -52,9 +53,9 @@ int insereEsquerda(Tree t, int num, int numPai){
     Tree novo;
     definir(&novo); //Cria um novo nó
     
-    criaRaiz(&novo, num); //Associa os valores ao novo nó
+    criaRaiz(&novo, id, num); //Associa os valores ao novo nó
 
-    aux = busca(t, numPai); //Associa ao aux o nó do pai
+    aux = busca(t, idPai); //Associa ao aux o nó do pai
 
     if(!aux) {
         printf("\nO pai nao foi encontrado\n");
@@ -72,7 +73,7 @@ int insereEsquerda(Tree t, int num, int numPai){
     aux->ln = novo; //Insere o novo nó no filho da esquerda
     return 1;
 }
-int insereDireita(Tree t, int num, int numPai) {
+int insereDireita(Tree t, int id, int num, int idPai) {
     if(vazia(t)) return 0;
 
     Tree aux, aux2;
@@ -80,9 +81,9 @@ int insereDireita(Tree t, int num, int numPai) {
     Tree novo;
     definir(&novo); //Cria um novo nó
     
-    criaRaiz(&novo, num); //Associa os valores ao novo nó
+    criaRaiz(&novo, id, num); //Associa os valores ao novo nó
 
-    aux = busca(t, numPai); //Associa ao aux o nó do pai
+    aux = busca(t, idPai); //Associa ao aux o nó do pai
 
     if(!aux) {
         printf("\nO pai nao foi encontrado\n");
@@ -115,13 +116,13 @@ int numeroNos(Tree t) {
     if(t->ln)
         nnl = numeroNos(t->ln);
     if(t->rn)
-        nnr = numeroNos(t->ln);
+        nnr = numeroNos(t->rn);
     
     return 1 + nnl + nnr;
 }
 
 void mostraNo(Tree t){
-    printf("%d ", t->num); //Printa no console o numero do nó
+    printf("(id:%d - num:%d)", t->id, t->num); //Printa no console o numero do nó
 }
 
 void preOrdem(Tree t){
