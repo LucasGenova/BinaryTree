@@ -73,6 +73,7 @@ int insereEsquerda(Tree t, int id, int num, int idPai){
     aux->ln = novo; //Insere o novo nó no filho da esquerda
     return 1;
 }
+
 int insereDireita(Tree t, int id, int num, int idPai) {
     if(vazia(t)) return 0;
 
@@ -101,6 +102,50 @@ int insereDireita(Tree t, int id, int num, int idPai) {
     aux->rn = novo; //Insere o novo nó no filho da direita
     return 1;
 }
+
+Tree removeNo(Tree* t, int id){
+    Tree aux, aux1;
+    
+    if(!(*t)) return NULL;
+    if((*t)->id == id){
+        if(!(*t)->ln && !(*t)->rn){
+            aux = (*t);
+            (*t) = NULL;
+            return aux;
+        }
+        if((*t)->ln && !(*t)->rn){
+            aux = (*t);
+            (*t) = (*t)->ln;
+            return aux;
+        }
+
+        if(!(*t)->ln && (*t)->rn){
+            aux = (*t);
+            (*t) = (*t)->rn;
+            return aux;
+        }
+
+        aux = (*t)->rn;
+
+        while(aux->ln)
+            aux = aux->ln;
+
+        aux1 = (*t);
+        (*t) = removeNo(&aux, aux->id);
+        return aux1;       
+    }
+
+    if((*t)->ln){
+        aux = removeNo(&(*t)->ln, id);
+        if(aux) return aux;
+    }
+    if((*t)->rn){
+        aux = removeNo(&(*t)->rn, id);
+        if(aux) return aux;
+    }
+    return NULL;
+}
+    
 
 int altura(Tree t){
     if(vazia(t)) return 0;

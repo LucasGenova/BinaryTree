@@ -19,6 +19,7 @@ int main(){
         "\n6 - Imprime os nos em pre-ordem"
         "\n7 - Imprime os nos em ordem"
         "\n8 - Imprime os nos em pos-ordem"
+        "\n9 - Remover elemento"
         "\n0 - Sair\n\n");
         scanf("%d", &op);
 
@@ -99,6 +100,21 @@ int main(){
                 printf("\n");
             
                 break;
+
+            case 9: //remove no
+                do{
+                    printf("\nInsira o id do elemento a ser removido: ");
+                    scanf("%d", &id);
+
+                    taux = busca(t, id);
+                    if(taux) break;
+
+                    printf("\nElemento não encontrado");
+                }while(1);
+                removeNo(&t, id);
+                break;
+
+
         }
     }while(op!=0);
 
