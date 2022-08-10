@@ -131,7 +131,10 @@ Tree removeNo(Tree* t, int id){
             aux = aux->ln;
 
         aux1 = (*t);
-        (*t) = removeNo(&aux, aux->id);
+        (*t) = removeNo(t, aux->id);
+
+        (*t)->ln = aux1->ln;
+        (*t)->rn = aux1->rn;
         return aux1;       
     }
 
